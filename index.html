@@ -51,7 +51,7 @@ details{border-bottom:1px solid var(--bd);padding:12px 0}summary{font-weight:600
 <p class="note" id="next"></p></section>
 <div class="ad-slot" id="ad-mid"></div>
 <section><h2>Guías para reclamar paso a paso</h2><div class="cards3">
-<a href="reclamar-vuelo-retrasado.html"><div class="card"><b>✈️ Reclamar vuelo retrasado o cancelado</b><p>Importes 250/400/600 €, plazos y AESA.</p></div></a>
+<a href="reclamar-vuelo-retrasado.html"><div class="card"><b>✈️ Reclamar vuelo retrasado o cancelado</b><p>Importes 250/400/600 €, plazos y AESA.</p></div></a><a href="reclamar-vuelo-ryanair.html"><div class="card"><b>✈️ Reclamar a Ryanair</b><p>Compensación 250–600 € y carta lista.</p></div></a><a href="reclamar-vuelo-vueling.html"><div class="card"><b>✈️ Reclamar a Vueling</b><p>Compensación 250–600 € y carta lista.</p></div></a><a href="reclamar-vuelo-iberia.html"><div class="card"><b>✈️ Reclamar a Iberia</b><p>Compensación 250–600 € y carta lista.</p></div></a><a href="reclamar-vuelo-air-europa.html"><div class="card"><b>✈️ Reclamar a Air Europa</b><p>Compensación 250–600 € y carta lista.</p></div></a><a href="reclamar-vuelo-easyjet.html"><div class="card"><b>✈️ Reclamar a easyJet</b><p>Compensación 250–600 € y carta lista.</p></div></a>
 <a href="reclamar-comisiones-banco.html"><div class="card"><b>🏦 Reclamar comisiones al banco</b><p>Servicio de atención al cliente y Banco de España.</p></div></a>
 <a href="reclamar-telefonia.html"><div class="card"><b>📱 Reclamar a la compañía telefónica</b><p>Facturas erróneas, bajas y portabilidades.</p></div></a>
 <a href="reclamar-multa-zbe.html"><div class="card"><b>🚧 Reclamar multa ZBE</b><p>Alegaciones por señalización, fase informativa o exenciones.</p></div></a>
@@ -83,7 +83,8 @@ let cur="vuelo";const T=document.getElementById("types"),F=document.getElementBy
 function render(){T.innerHTML=Object.entries(C).map(([k,v])=>`<button type="button" class="type ${k==cur?"on":""}" data-k="${k}"><span>${v.i}</span>${v.n}</button>`).join("");
 F.innerHTML=[...base,...C[cur].f,["extra","Detalles adicionales (opcional)","area"]].map(([id,l,t])=>`<div class="${t=="area"?"full":""}"><label for="${id}">${l}</label>${Array.isArray(t)?`<select id="${id}">${t.map(o=>`<option>${o}</option>`).join("")}</select>`:t=="area"?`<textarea id="${id}"></textarea>`:`<input id="${id}" type="${t||"text"}">`}</div>`).join("");
 T.querySelectorAll(".type").forEach(b=>b.onclick=()=>{cur=b.dataset.k;render()})}
-render();
+const Q=new URLSearchParams(location.search);if(Q.get("t")&&C[Q.get("t")])cur=Q.get("t");
+render();if(Q.get("aerolinea")){const e=document.getElementById("aerolinea");if(e)e.value=Q.get("aerolinea")}
 const fd=s=>{if(!s)return"[FECHA]";const[a,m,d]=s.split("-");return`${d}/${m}/${a}`};
 document.getElementById("gen").onclick=()=>{const d={};F.querySelectorAll("input,select,textarea").forEach(e=>d[e.id]=e.type=="date"?fd(e.value):(e.value.trim()||"["+e.previousElementSibling.textContent.toUpperCase()+"]"));
 const c=C[cur],to=d.aerolinea||d.empresa||(d.ciudad?"Ayuntamiento de "+d.ciudad+" — Procedimiento sancionador / ZBE":""),hoy=new Date().toLocaleDateString("es-ES");
